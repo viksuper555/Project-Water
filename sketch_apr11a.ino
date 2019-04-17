@@ -26,7 +26,7 @@ void setup() {
 
 void loop() {
   currentMillis = millis();
-  if (currentMillis - tempMillis >= tempPeriod)    //Temp
+  if (currentMillis - tempMillis >= tempPeriod)    //Temperature
   {
   TX = GetTemp();               
   Serial.print("Temperature:");       
@@ -35,9 +35,9 @@ void loop() {
   tempMillis = currentMillis;
   }
   currentMillis = millis();
-  if (currentMillis - distanceMillis >= distPeriodSend + distPeriodStop)    //Temp
+  if (currentMillis - distanceMillis >= distPeriodSend + distPeriodStop)    //Distance
   {
-  distance= GetDistance();       //Distance
+  distance= GetDistance();       
   Serial.print("Distance: ");         
   Serial.println(distance);
   distanceMillis = currentMillis;
