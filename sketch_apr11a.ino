@@ -9,6 +9,7 @@ float RT, VR, ln, TX, T0, VRT;
 
 unsigned long currentMillis;
 unsigned long tempMillis;
+unsigned long tempMillis2;
 unsigned long distanceMillis;
 const unsigned long distPeriodSend = 0.002;
 const unsigned long distPeriodStop = 0.01;
@@ -20,19 +21,30 @@ void setup() {
   pinMode(echoPin, INPUT); 
   Serial.begin(9600);
   tempMillis = millis();
+  tempMillis2 = millis();
   distanceMillis = millis();
-
 }
 
 void loop() {
   currentMillis = millis();
   if (currentMillis - tempMillis >= tempPeriod)    //Temperature
   {
-  TX = GetTemp();               
+  VRT = analogRead(A0);
+  TX = GetTemp(VRT);               
   Serial.print("Temperature:");       
   Serial.print("\t");
   Serial.println(TX);
   tempMillis = currentMillis;
+  }
+  currentMillis = millis();
+  if (currentMillis - tempMillis2 >= tempPeriod)    //Temperature
+  {
+  VRT = analogRead(A1);  
+  TX = GetTemp(VRT);               
+  Serial.print("Temperature 2:");       
+  Serial.print("\t");
+  Serial.println(TX);
+  tempMillis2 = currentMillis;
   }
   currentMillis = millis();
   if (currentMillis - distanceMillis >= distPeriodSend + distPeriodStop)    //Distance
@@ -65,9 +77,8 @@ int GetDistance()
   return distance;
 }
 
-int GetTemp()
-{
-  VRT = analogRead(A0);              //Acquisition analog value of VRT
+int GetTemp(float VRT)
+{       
   VRT = (5.00 / 1023.00) * VRT;      //Conversion to voltage
   VR = 5 - VRT;
   RT = VRT / (VR / 10000);               //Resistance of RT
