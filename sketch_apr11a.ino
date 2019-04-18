@@ -4,6 +4,8 @@ const int pump = 2;
 const int button = 3;
 const int trigPin = 4;
 const int echoPin = 5;
+const int peltier1 = 7;
+const int peltier2 = 6;
 
 float RT, VR, ln, TX1, T0, VRT, TX2, TX;
 
@@ -19,6 +21,8 @@ void setup() {
   pinMode(button,INPUT);
   pinMode(trigPin, OUTPUT); 
   pinMode(echoPin, INPUT); 
+  pinMode(peltier1, OUTPUT); 
+  pinMode(peltier2, OUTPUT); 
   Serial.begin(9600);
   tempMillis = millis();
   tempMillis2 = millis();
@@ -55,15 +59,24 @@ void loop() {
   distanceMillis = currentMillis;
   }
 
-if(digitalRead(button) == HIGH && distance <= 6 && TX1 >= 20 && TX2 <= 30){
+if(digitalRead(button) == HIGH && distance <= 6){
  digitalWrite(pump,HIGH);
  }
 else
+{
  digitalWrite(pump,LOW);
 }
-
-
-
+  
+if(TX1 >= 15 && TX1 <= 50)
+  digitalWrite(peltier1,HIGH);
+else
+  digitalWrite(peltier1,LOW);
+  
+if(TX2 >= 15 && TX2 <= 50)
+  digitalWrite(peltier2,HIGH);
+else
+  digitalWrite(peltier2,LOW);
+}
 
 int GetDistance()
 {
